@@ -7,15 +7,6 @@ class Prestamo:
         self.fecha_devolucion_pactada = fecha_devolucion_pactada
         self.fecha_devolucion = fecha_devolucion
         
-        def insertar_prestamo():
-            pass
-        def actualizar_prestamo():
-            pass
-        def eliminar_prestamo():
-            pass
-        def consultar_prestamo():
-            pass
-            
         
         
 
