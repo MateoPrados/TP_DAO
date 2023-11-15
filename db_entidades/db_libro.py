@@ -6,11 +6,11 @@ class LibroDB:
     
     def insertar_libro(self, Libro):
         query = '''
-            INSERT INTO Libros (titulo, precio_reposicion, estado)
-            VALUES (?, ?, ?);
+            INSERT INTO Libros (codigo, titulo, precio_reposicion, estado)
+            VALUES (?, ?, ?, ?);
         '''
         cursor = self.database.get_cursor()
-        cursor.execute(query, (Libro.titulo, Libro.precio_reposicion, Libro.estado))
+        cursor.execute(query, (Libro.codigo, Libro.titulo, Libro.precio_reposicion, Libro.estado))
         print("se insertó el libro")
         self.database.conexion.commit()
 

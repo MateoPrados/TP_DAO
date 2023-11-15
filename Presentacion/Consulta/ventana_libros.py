@@ -4,13 +4,16 @@ from tkinter import messagebox
 
 from Presentacion.AMB.ventana_ABM_libro import VentanaAMBLibro
 from db_entidades.db_libro import LibroDB
+from db_entidades.database import Database
 
 class VentanaLibros:
     
     def __init__(self):
         
         self.ventana = Tk()
-        self.librosDB = LibroDB()
+        database = Database()
+        self.librosDB = LibroDB(database)
+        self._libros = []
         
         # Configuración de la ventana
         self.ventana.title("Listado de libros")
@@ -48,18 +51,24 @@ class VentanaLibros:
     def refrescar(self):
         # self.cantidad_libros.set(f"Cantidad de libros: {self._biblioteca.cantidad}")
 
-        libros = self.librosDB.listar_libros()
+        self._libros = self.librosDB.listar_libros()
         
         self.grilla.delete(*self.grilla.get_children())
-        for libro in libros:
+        for libro in self._libros:
             self.grilla.insert("", END, values=[libro.codigo, libro.titulo, libro.precio_reposicion, libro.estado])
         
         for col in self.grilla["columns"]:
             self.grilla.column(col, anchor="center")
+            
+        print(self.libros[0])
         
     # def promedio_edades(self):
     #     messagebox.showinfo("Reporte", f"El promedio de edades es de {self._padron.promedio_edades}")
-        
+    
+    @property
+    def libros(self):
+        return self._libros
+    
     def abrir_AMB(self):
         ventana_nueva = VentanaAMBLibro(self)
         ventana_nueva.mostrar()

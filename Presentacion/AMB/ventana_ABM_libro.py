@@ -1,6 +1,7 @@
 from tkinter import *
 from tkinter.ttk import *
 from entidades.libro import Libro
+from tkinter import messagebox as MessageBox
 
 class VentanaAMBLibro:
     
@@ -53,15 +54,45 @@ class VentanaAMBLibro:
                 
     def aceptar(self):
         
-        codigo = int(self.txt_codigo.get())
+        codigo = self.txt_codigo.get()
         titulo = self.txt_titulo.get()
         precio = self.txt_precio.get()
-        estado = int(self.txt_estado.get())
+        estado = self.txt_estado.get()
         
-        nuevoLibro = Libro(codigo, titulo, precio, estado)
-        self.principal.padron.agregar_persona(nuevoLibro)
-        self.principal.refrescar()
-        self.ventana.destroy()
+        if self.validar(codigo, titulo, precio, estado):
+            nuevoLibro = Libro(codigo, titulo, precio, estado)
+            self.principal.librosDB.insertar_libro(nuevoLibro)
+            self.principal.refrescar()
+            MessageBox.showinfo("Exito", "El libro se ha registrado correctamente.")
+            self.ventana.destroy()
+    
+    def validar(self, cod, tit, precio, est):
+        esvalido = True
+        if cod=="" or tit=="" or precio=="" or est=="":
+            MessageBox.showwarning("Error", "Debe completar todos los campos.")
+            esvalido = False
+            return esvalido
+        
+        # Validar codigo que sean números
+        if not cod.isdigit():
+            MessageBox.showerror("Error", "El código debe ser un número.")
+            esvalido = False
+            return esvalido
+        
+        # Validar que no haya un libro con el mismo código
+        for libro in self.principal.libros:
+            if libro.codigo == int(cod):
+                MessageBox.showerror("Error", "Ya existe un libro con el mismo código.")
+                esvalido = False
+                return esvalido
+        
+        if not precio.isdigit():
+            MessageBox.showerror("Error", "El precio debe ser un número o debe ser mayor a 0.")
+            esvalido = False
+            return esvalido
+        
+        return esvalido
+                
         
     def mostrar(self):
         self.ventana.mainloop()
