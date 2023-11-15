@@ -2,7 +2,7 @@ from tkinter import *
 from tkinter.ttk import *
 from entidades.libro import Libro
 
-class FrmNuevoLibro:
+class VentanaAMBLibro:
     
     def __init__(self, principal):
 
