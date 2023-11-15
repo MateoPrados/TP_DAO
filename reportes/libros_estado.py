@@ -24,3 +24,5 @@ def generar_reporte_estado_libros():
     pdf.drawString(100, 740, f"Libros Extraviados: {estados['extraviado']}")
 
     pdf.save()
+
+    
