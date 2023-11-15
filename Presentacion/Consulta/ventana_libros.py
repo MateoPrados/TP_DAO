@@ -18,7 +18,7 @@ class VentanaLibros:
         # Configuración de la ventana
         self.ventana.title("Listado de libros")
         self.ventana.geometry("500x400")
-        self.ventana.iconbitmap("Presentacion\extras\libros.ico")
+        self.ventana.iconbitmap("TP_DAO\Presentacion\extras\libros.ico")
         self.ventana.resizable(0, 0)
         
         self.cantidad_libros = StringVar()

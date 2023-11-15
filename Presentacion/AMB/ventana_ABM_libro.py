@@ -65,7 +65,8 @@ class VentanaAMBLibro:
             self.principal.refrescar()
             MessageBox.showinfo("Exito", "El libro se ha registrado correctamente.")
             self.ventana.destroy()
-    
+
+
     def validar(self, cod, tit, precio, est):
         esvalido = True
         if cod=="" or tit=="" or precio=="" or est=="":
@@ -86,11 +87,13 @@ class VentanaAMBLibro:
                 esvalido = False
                 return esvalido
         
+
+        # Validar que el precio sea un digito
         if not precio.isdigit():
             MessageBox.showerror("Error", "El precio debe ser un número o debe ser mayor a 0.")
             esvalido = False
             return esvalido
-        
+
         return esvalido
                 
         

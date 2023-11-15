@@ -8,7 +8,7 @@ class Database:
         if cls._instance is None:
             # Si no hay una instancia, crea una nueva
             cls._instance = super(Database, cls).__new__(cls)
-            cls._instance.conexion = sqlite3.connect("db/LibreriaDAO.db")
+            cls._instance.conexion = sqlite3.connect("TP_DAO\db\LibreriaDAO.db")
             cls._instance.cursor = cls._instance.conexion.cursor()
         return cls._instance
 
