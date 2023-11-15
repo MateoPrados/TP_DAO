@@ -41,5 +41,37 @@ class PrestamoDB:
         '''
         cursor = self.database.get_cursor()
         cursor.execute(query)
-        prestamos = [Prestamo(*fila) for fila in cursor.fetchall()]
+        prestamos = [Prestamo(fila[1], fila[2], fila[3], fila[4], fila[5]) for fila in cursor.fetchall()]
         return prestamos
+    
+    def obtener_solicitantes_por_titulo(self, titulo_libro):
+        query = '''
+            SELECT DISTINCT Socios.nombre || ' ' || Socios.apellido AS solicitante
+            FROM Libros
+            JOIN Prestamos ON Libros.codigo = Prestamos.codigo_libro
+            JOIN Socios ON Prestamos.id_socio = Socios.id
+            WHERE Libros.titulo = ?;
+        '''
+        cursor = self.database.get_cursor()
+        cursor.execute(query, (titulo_libro,))
+        solicitantes = [row[0] for row in cursor.fetchall()]
+
+        return solicitantes
+    
+    def obtener_prestamos_demorados(self):
+        query = '''
+            SELECT Libros.titulo, Prestamos.id_prestamo, Socios.nombre || ' ' || Socios.apellido AS solicitante,
+                   Prestamos.fecha_prestamo, Prestamos.fecha_devolucion_pactada, Prestamos.fecha_devolucion
+            FROM Prestamos
+            JOIN Libros ON Prestamos.codigo_libro = Libros.codigo
+            JOIN Socios ON Prestamos.id_socio = Socios.id
+            WHERE Prestamos.fecha_devolucion > Prestamos.fecha_devolucion_pactada;
+        '''
+        cursor = self.database.get_cursor()
+        cursor.execute(query)
+        prestamos_demorados = cursor.fetchall()
+
+        return prestamos_demorados
+
+
+

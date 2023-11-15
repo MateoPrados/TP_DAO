@@ -42,6 +42,20 @@ class LibroDB:
         cursor.execute(query)
         libros = [Libro(*fila) for fila in cursor.fetchall()]
         return libros
+    
+    def obtener_libro_por_codigo(self, codigo_libro):
+        query = '''
+            SELECT * FROM Libros
+            WHERE codigo = ?;
+        '''
+        cursor = self.database.get_cursor()
+        cursor.execute(query, (codigo_libro,))
+        libro_data = cursor.fetchone()
+
+        if libro_data:
+            return Libro(*libro_data)
+        else:
+            return None
 
     
     
