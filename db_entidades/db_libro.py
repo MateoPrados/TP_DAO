@@ -10,10 +10,11 @@ class LibroDB:
         
     def insertar_libro(self, Libro):
         query = '''
-            INSERT INTO libros (titulo, precio_reposicion, estado)
+            INSERT INTO Libros (titulo, precio_reposicion, estado)
             VALUES (?, ?, ?);
         '''
         self.cursor.execute(query, (Libro.titulo, Libro.precio_reposicion, Libro.estado))
+        print("se insertó el libro")
         self.conexion.commit()
 
     def actualizar_libro(self, libro):
@@ -23,6 +24,7 @@ class LibroDB:
             WHERE codigo=?;
         '''
         self.cursor.execute(query, (libro.titulo, libro.precio_reposicion, libro.estado, libro.codigo))
+        print("se actualizó el libro")
         self.conexion.commit()
 
     def eliminar_libro(self, codigo):
@@ -30,6 +32,7 @@ class LibroDB:
             DELETE FROM Libros WHERE codigo=?;
         '''
         self.cursor.execute(query, (codigo,))
+        print("se eliminó el libro")
         self.conexion.commit()
 
     def listar_libros(self):
