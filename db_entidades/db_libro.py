@@ -1,5 +1,6 @@
 import sqlite3
 from entidades.libro import Libro
+from .database import Database
 
 
 class LibroDB:
@@ -7,6 +8,7 @@ class LibroDB:
         ruta_conexion = "db/LibreriaDAO.db"
         self.conexion = sqlite3.connect(ruta_conexion)
         self.cursor = self.conexion.cursor()
+    
         
     def insertar_libro(self, Libro):
         query = '''
