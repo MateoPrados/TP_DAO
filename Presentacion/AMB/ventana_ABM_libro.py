@@ -5,16 +5,23 @@ from tkinter import messagebox as MessageBox
 
 class VentanaAMBLibro:
     
-    def __init__(self, principal):
+    def __init__(self, principal, modo):
 
         # Asignacion de la ventana principal
         self.principal = principal
+        self.modo = modo
         
         # Creación de la ventana
         self.ventana = Tk()
         
         # Configuración de la ventana
-        self.ventana.title("Registrar libro")
+        if modo == 1:
+            self.ventana.title("Registrar libro")
+        elif modo == 2:
+            self.ventana.title("Modificar libro")
+        elif modo == 3:
+            self.ventana.title("Eliminar libro")
+            
         self.ventana.geometry("400x200")
         
         # Creación de las etiquetas
@@ -28,6 +35,18 @@ class VentanaAMBLibro:
         self.txt_titulo = Entry(self.ventana, width=30)
         self.txt_precio = Entry(self.ventana, width=30)
         self.txt_estado = Entry(self.ventana, width=30)
+        
+        if modo != 1:
+            self.txt_codigo.insert(0, self.principal.libro_seleccionado.codigo)
+            self.txt_titulo.insert(0, self.principal.libro_seleccionado.titulo)
+            self.txt_precio.insert(0, self.principal.libro_seleccionado.precio_reposicion)
+            self.txt_estado.insert(0, self.principal.libro_seleccionado.estado)
+        
+        if modo == 3:
+            self.txt_codigo.config(state="disabled")
+            self.txt_titulo.config(state="disabled")
+            self.txt_precio.config(state="disabled")
+            self.txt_estado.config(state="disabled")
 
         # Ubicación de los cuadros de texto en la ventana        
         self.txt_codigo.grid(column=1, row=0, sticky="w")
@@ -59,12 +78,27 @@ class VentanaAMBLibro:
         precio = self.txt_precio.get()
         estado = self.txt_estado.get()
         
-        if self.validar(codigo, titulo, precio, estado):
-            nuevoLibro = Libro(codigo, titulo, precio, estado)
-            self.principal.librosDB.insertar_libro(nuevoLibro)
-            self.principal.refrescar()
-            MessageBox.showinfo("Exito", "El libro se ha registrado correctamente.")
-            self.ventana.destroy()
+        if self.modo == 3:
+            if MessageBox.askyesno(message="¿Está seguro que desea dar de baja el libro?"):
+                self.principal.librosDB.eliminar_libro(self.principal.libro_seleccionado.codigo)
+                self.principal.refrescar()
+                MessageBox.showinfo("Baja", "El libro se ha ha dado de baja.")
+                self.ventana.destroy()
+        
+        elif self.validar(codigo, titulo, precio, estado):
+            if self.modo == 1:
+                nuevoLibro = Libro(codigo, titulo, precio, estado)
+                self.principal.librosDB.insertar_libro(nuevoLibro)
+                self.principal.refrescar()
+                MessageBox.showinfo("Registro", "El libro se ha registrado.")
+                self.ventana.destroy()
+            if self.modo == 2:
+                if MessageBox.askyesno(message="¿Está seguro que desea modificar el libro?"):
+                    libroModificado = Libro(codigo, titulo, precio, estado)
+                    self.principal.librosDB.actualizar_libro(libroModificado)
+                    self.principal.refrescar()
+                    MessageBox.showinfo("Modificación", "El libro se ha modificado.")
+                    self.ventana.destroy()
     
     def validar(self, cod, tit, precio, est):
         esvalido = True
@@ -81,7 +115,7 @@ class VentanaAMBLibro:
         
         # Validar que no haya un libro con el mismo código
         for libro in self.principal.libros:
-            if libro.codigo == int(cod):
+            if (libro.codigo == int(cod) and self.modo == 1) or (libro.codigo == int(cod) and libro.codigo != self.principal.libro_seleccionado.codigo and self.modo == 2):
                 MessageBox.showerror("Error", "Ya existe un libro con el mismo código.")
                 esvalido = False
                 return esvalido
@@ -93,6 +127,5 @@ class VentanaAMBLibro:
         
         return esvalido
                 
-        
     def mostrar(self):
         self.ventana.mainloop()

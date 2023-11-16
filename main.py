@@ -3,7 +3,7 @@ from entidades.libro import Libro
 from db_entidades.database import Database
 from Presentacion.Consulta.ventana_libros import VentanaLibros
 from Presentacion.ventana_principal import VentanaPrincipal
-from reportes.libros_estado import *
+#from reportes.libros_estado import *
 
 #baseDatos = LibroDB()
 #libro1 = Libro(223, "Prueba libro", 2500, "Prestado")
@@ -19,10 +19,10 @@ from reportes.libros_estado import *
 # form.biblioteca = biblioteca
 #form.mostrar()
 
-# princ = VentanaPrincipal()
-# princ.mostrar()
+princ = VentanaPrincipal()
+princ.mostrar()
 
-generar_reporte_estado_libros()
+#generar_reporte_estado_libros()
 
 
     
