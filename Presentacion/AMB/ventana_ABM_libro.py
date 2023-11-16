@@ -123,7 +123,7 @@ class VentanaAMBLibro:
 
         # Validar que el precio sea un digito
         if not precio.isdigit():
-            MessageBox.showerror("Error", "El precio debe ser un número o debe ser mayor a 0.")
+            MessageBox.showerror("Error", "El precio debe ser un número sin coma o debe ser mayor a 0.")
             esvalido = False
             return esvalido
 

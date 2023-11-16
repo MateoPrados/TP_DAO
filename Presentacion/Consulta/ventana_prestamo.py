@@ -21,7 +21,7 @@ class VentanaPrestamo:
 
         # Configuración de la ventana
         self.ventana.title("Listado de prestamos realizados")
-        self.ventana.geometry("500x400")
+        self.ventana.geometry("750x400")
         self.ventana.iconbitmap("Presentacion\extras\libros.ico")
         self.ventana.resizable(0, 0)
         
