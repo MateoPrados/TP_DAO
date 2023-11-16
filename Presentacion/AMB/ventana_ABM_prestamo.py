@@ -5,7 +5,7 @@ from tkinter import messagebox as MessageBox
 from db_entidades.db_libro import LibroDB
 from db_entidades.db_prestamo import PrestamoDB
 from db_entidades.database import Database
-from datetime import datetime
+
 
 class VentanaABMPrestamo:
     

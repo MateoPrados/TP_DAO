@@ -15,11 +15,11 @@ from Presentacion.Consulta.ventana_prestamo import VentanaPrestamo
 
 # baseDatos.eliminar_libro(1237)
 
-form = VentanaPrestamo()
-form.mostrar()
+#form = VentanaPrestamo()
+#form.mostrar()
 
-# princ = VentanaPrincipal()
-# princ.mostrar()
+princ = VentanaPrincipal()
+princ.mostrar()
 
 ##generar_reporte_estado_libros()
 

@@ -41,7 +41,7 @@ class PrestamoDB:
         '''
         cursor = self.database.get_cursor()
         cursor.execute(query)
-        prestamos = [Prestamo(fila[1], fila[2], fila[3], fila[4], fila[5]) for fila in cursor.fetchall()]
+        prestamos = [Prestamo(fila[1], fila[2], fila[3], fila[4], fila[5], fila[0]) for fila in cursor.fetchall()]
         return prestamos
     
     def obtener_solicitantes_por_titulo(self, titulo_libro):

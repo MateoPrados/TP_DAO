@@ -9,7 +9,7 @@ from reportes.sum_precio_extraviados import *
 
 from Presentacion.Consulta.ventana_libros import VentanaLibros
 from Presentacion.Consulta.ventana_socios import VentanaSocios
-from Presentacion.AMB.ventana_ABM_socio import VentanaAMBSocio
+from Presentacion.Consulta.ventana_prestamo import VentanaPrestamo
 # from reportes.libros_estado import *
 # from reportes.listado_prestamo_demorado import *
 # from reportes.listado_prestamo_socio import *
@@ -48,14 +48,14 @@ class VentanaPrincipal:
         # menu_libros.add_command(label="Eliminar libro", command=eliminar_libro)
         menu_libros.add_command(label="Consultar libros", command=self.consultarLibros)
         menu_socios.add_command(label="Consultar Socio", command=self.consultarSocios)
-        # menu_prestamos_devoluc.add_command(label="Registrar prestamo", command=x)
+        menu_prestamos_devoluc.add_command(label="Registrar prestamo", command= self.consultarPrestamos)
         # menu_prestamos_devoluc.add_command(label="Registrar devolución", command=x)
 
-        # menu_reportes.add_command(label="Cantidad de libros en cada estado", command=generar_reporte_estado_libros)
-        # menu_reportes.add_command(label="Sumatoria del precio de reposición de todos los libros extraviados", command=generar_reporte_sumatoria_extraviados)
-        # menu_reportes.add_command(label="Nombre de todos los solicitantes de un libro en particular", command=generar_reporte_solicitantes_libro)
-        # menu_reportes.add_command(label="Listado de préstamos de un socio", command=generar_reporte_prestamos_socio)
-        # menu_reportes.add_command(label="Listado de préstamos demorados", command=generar_reporte_prestamos_demorados)
+        menu_reportes.add_command(label="Cantidad de libros en cada estado", command=generar_reporte_estado_libros)
+        menu_reportes.add_command(label="Sumatoria del precio de reposición de todos los libros extraviados", command=generar_reporte_sumatoria_extraviados)
+        menu_reportes.add_command(label="Nombre de todos los solicitantes de un libro en particular", command=generar_reporte_solicitantes_libro)
+        menu_reportes.add_command(label="Listado de préstamos de un socio", command=generar_reporte_prestamos_socio)
+        menu_reportes.add_command(label="Listado de préstamos demorados", command=generar_reporte_prestamos_demorados)
     
     def consultarLibros(self):
         ventana_nueva = VentanaLibros()
@@ -65,6 +65,12 @@ class VentanaPrincipal:
         ventana_nueva = VentanaSocios()
         ventana_nueva.mostrar()
     
+    def consultarPrestamos(self):
+        ventana = VentanaPrestamo()
+        ventana.mostrar()
+
+
+
     def cerrar_programa(self):
         if messagebox.askokcancel("Salir", "¿Estás seguro de que quieres salir?"):
             self.ventana.destroy()
