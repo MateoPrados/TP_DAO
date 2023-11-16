@@ -23,6 +23,7 @@ class VentanaPrincipal:
         self.ventana = Tk()
         self.ventana.geometry("700x300")
         self.ventana.title("Biblioteca")
+        self.ventana.protocol("WM_DELETE_WINDOW", self.cerrar_programa)
         
         barra_menu = Menu(self.ventana)
         self.ventana.config(menu=barra_menu)
@@ -46,15 +47,15 @@ class VentanaPrincipal:
         # menu_libros.add_command(label="Registrar libro", command=registrar_libro)
         # menu_libros.add_command(label="Eliminar libro", command=eliminar_libro)
         menu_libros.add_command(label="Consultar libros", command=self.consultarLibros)
-        menu_socios.add_command(label="Consultar Socio", command=self.consultarSocio)
+        menu_socios.add_command(label="Consultar Socio", command=self.consultarSocios)
         # menu_prestamos_devoluc.add_command(label="Registrar prestamo", command=x)
         # menu_prestamos_devoluc.add_command(label="Registrar devolución", command=x)
 
-        # menu_reportes.add_command(label="Cantidad de libros en cada estado (tres totales)",command=x)
-        # menu_reportes.add_command(label="Sumatoria del precio de reposición de todos los libros extraviados",command=x)
-        # menu_reportes.add_command(label="Nombre de todos los solicitantes de un libro en particular identificado por su título",command=x)
-        # menu_reportes.add_command(label="Listado de préstamos de un socio identificado por su número de socio",command=x)
-        # menu_reportes.add_command(label="Listado de préstamos demorados",command=x)
+        # menu_reportes.add_command(label="Cantidad de libros en cada estado", command=generar_reporte_estado_libros)
+        # menu_reportes.add_command(label="Sumatoria del precio de reposición de todos los libros extraviados", command=generar_reporte_sumatoria_extraviados)
+        # menu_reportes.add_command(label="Nombre de todos los solicitantes de un libro en particular", command=generar_reporte_solicitantes_libro)
+        # menu_reportes.add_command(label="Listado de préstamos de un socio", command=generar_reporte_prestamos_socio)
+        # menu_reportes.add_command(label="Listado de préstamos demorados", command=generar_reporte_prestamos_demorados)
     
     def consultarLibros(self):
         ventana_nueva = VentanaLibros()
