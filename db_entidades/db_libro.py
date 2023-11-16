@@ -4,13 +4,13 @@ class LibroDB:
     def __init__(self, database):
         self.database = database
     
-    def insertar_libro(self, Libro):
+    def insertar_libro(self, libro):
         query = '''
             INSERT INTO Libros (codigo, titulo, precio_reposicion, estado)
             VALUES (?, ?, ?, ?);
         '''
         cursor = self.database.get_cursor()
-        cursor.execute(query, (Libro.codigo, Libro.titulo, Libro.precio_reposicion, Libro.estado))
+        cursor.execute(query, (libro.codigo, libro.titulo, libro.precio_reposicion, libro.estado))
         print("se insertó el libro")
         self.database.conexion.commit()
 

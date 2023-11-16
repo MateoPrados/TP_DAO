@@ -5,6 +5,7 @@ from tkinter import messagebox
 from Presentacion.AMB.ventana_ABM_libro import VentanaAMBLibro
 from db_entidades.db_libro import LibroDB
 from db_entidades.database import Database
+from entidades.libro import Libro
 
 class VentanaLibros:
     
@@ -14,6 +15,7 @@ class VentanaLibros:
         database = Database()
         self.librosDB = LibroDB(database)
         self._libros = []
+        self._libro_seleccionado = None
         
         # Configuración de la ventana
         self.ventana.title("Listado de libros")
@@ -23,9 +25,12 @@ class VentanaLibros:
         
         self.cantidad_libros = StringVar()
         Label(self.ventana, textvariable=self.cantidad_libros).pack()
+        
+        # Botones
         botonera = Frame(self.ventana)
-        #Button(botonera, text="Promedio de edades", command=self.promedio_edades).pack(side=LEFT)
-        Button(botonera, text="Nuevo libro", command=self.abrir_AMB).pack(side=LEFT)
+        Button(botonera, text="Nuevo libro", command=self.abrir_AMB_nuevo).pack(side=LEFT)
+        Button(botonera, text="Nuevo libro", command=self.abrir_AMB_editar).pack(side=LEFT)
+        Button(botonera, text="Nuevo libro", command=self.abrir_AMB_eliminar).pack(side=LEFT)
         
         botonera.pack(side=BOTTOM)
         
@@ -42,6 +47,20 @@ class VentanaLibros:
         
         self.refrescar()
         
+        # Vincular el evento de clic
+        self.grilla.bind("<Button-1>", self.click_en_grilla)
+
+        self.grilla.pack(pady=10)
+
+    # Fila seleccionada
+    def click_en_grilla(self, evento):
+        # Obtener la fila seleccionada
+        fila_seleccionada = self.grilla.identify_row(evento.y)
+
+        if fila_seleccionada:
+            # Obtener información sobre el ítem
+            valores = self.grilla.item(fila_seleccionada, "values")
+            self._libro_seleccionado = Libro(int(valores[0]), valores[1], float(valores[2]), valores[3])
         
     def mostrar(self):
         self.ventana.mainloop()
@@ -66,9 +85,21 @@ class VentanaLibros:
     #     messagebox.showinfo("Reporte", f"El promedio de edades es de {self._padron.promedio_edades}")
     
     @property
+    def libro_seleccionado(self):
+        return self._libro_seleccionado
+    
+    @property
     def libros(self):
         return self._libros
     
-    def abrir_AMB(self):
-        ventana_nueva = VentanaAMBLibro(self)
+    def abrir_AMB_nuevo(self):
+        ventana_nueva = VentanaAMBLibro(self, 1)
+        ventana_nueva.mostrar()
+    
+    def abrir_AMB_editar(self):
+        ventana_nueva = VentanaAMBLibro(self, 2)
+        ventana_nueva.mostrar()
+    
+    def abrir_AMB_eliminar(self):
+        ventana_nueva = VentanaAMBLibro(self, 3)
         ventana_nueva.mostrar()
