@@ -120,11 +120,13 @@ class VentanaAMBLibro:
                 esvalido = False
                 return esvalido
         
+
+        # Validar que el precio sea un digito
         if not precio.isdigit():
             MessageBox.showerror("Error", "El precio debe ser un número o debe ser mayor a 0.")
             esvalido = False
             return esvalido
-        
+
         return esvalido
                 
     def mostrar(self):

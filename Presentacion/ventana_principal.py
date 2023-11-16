@@ -3,6 +3,7 @@ from tkinter import ttk
 from tkinter import messagebox
 
 from Presentacion.Consulta.ventana_libros import VentanaLibros
+from Presentacion.AMB.ventana_ABM_socio import VentanaAMBSocio
 
 class VentanaPrincipal:
     
@@ -34,7 +35,7 @@ class VentanaPrincipal:
         # menu_libros.add_command(label="Registrar libro", command=registrar_libro)
         # menu_libros.add_command(label="Eliminar libro", command=eliminar_libro)
         menu_libros.add_command(label="Consultar libros", command=self.consultarLibros)
-
+        menu_socios.add_command(label="Consultar Socio", command=self.consultarSocio)
         # menu_prestamos_devoluc.add_command(label="Registrar prestamo", command=x)
         # menu_prestamos_devoluc.add_command(label="Registrar devolución", command=x)
 
@@ -48,5 +49,8 @@ class VentanaPrincipal:
         ventana_nueva = VentanaLibros()
         ventana_nueva.mostrar()
     
+    def consultarSocio(self):
+        ventana_nueva = VentanaAMBSocio(self)
+        ventana_nueva.mostrar()
     def mostrar(self):
         self.ventana.mainloop()

@@ -15,8 +15,8 @@ from Presentacion.ventana_principal import VentanaPrincipal
 # baseDatos.eliminar_libro(1237)
 
 #form = LibrosListado()
-# biblioteca = baseDatos.listar_libros()
-# form.biblioteca = biblioteca
+#biblioteca = baseDatos.listar_libros()
+#form.biblioteca = biblioteca
 #form.mostrar()
 
 princ = VentanaPrincipal()
