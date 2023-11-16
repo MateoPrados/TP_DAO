@@ -2,11 +2,16 @@ from tkinter import *
 from tkinter.ttk import *
 from entidades.prestamo import Prestamo
 from tkinter import messagebox as MessageBox
+from db_entidades.db_libro import LibroDB
+from db_entidades.db_prestamo import PrestamoDB
+from db_entidades.database import Database
+from datetime import datetime
 
 class VentanaABMPrestamo:
     
     def __init__(self, principal):
 
+        
         # Asignacion de la ventana principal
         self.principal = principal
         
@@ -54,7 +59,7 @@ class VentanaABMPrestamo:
         
         # Conexión del evento click del boton cancelar
         btn_cancelar["command"] = self.ventana.destroy
-                
+        
     def aceptar(self):
         
         CodLibro = self.txt_CodLib.get()
@@ -64,7 +69,7 @@ class VentanaABMPrestamo:
         
         if self.validar(CodLibro, CodSocio, FechaPrestamo, FechaDevolucionPactada):
             nuevoPrestamo = Prestamo(CodLibro, CodSocio,FechaPrestamo, FechaDevolucionPactada)
-            self.principal.librosDB.insertar_libro(nuevoPrestamo)
+            self.principal.prestamoDB.insertar_prestamo(nuevoPrestamo)
             self.principal.refrescar()
             MessageBox.showinfo("Exito", "El prestamo se ha registrado correctamente.")
             self.ventana.destroy()
@@ -72,30 +77,45 @@ class VentanaABMPrestamo:
 
     def validar(self, CodLibro, CodSocio, FechaPrestamo, FechaDevolucionPactada):
         esvalido = True
+        basedatos = Database()
         if CodLibro =="" or CodSocio=="" or FechaPrestamo=="" or FechaDevolucionPactada =="":
             MessageBox.showwarning("Error", "Debe completar todos los campos.")
             esvalido = False
             return esvalido
         
+        prest = PrestamoDB(basedatos)
+        listprest = prest.listar_prestamos()
+
         # Validar codigo que sean números
-        if not CodLibro.isdigit():
+
+        if CodLibro.isdigit():
+            CodLibro = int(CodLibro)
+            for cod in listprest:
+                if cod.libro == CodLibro:
+                    MessageBox.showerror("Error", "El codigo libro ya existe.")
+                    esvalido = False
+                    return esvalido
+        else:
             MessageBox.showerror("Error", "El codigo libro no tiene el formato correcto.")
             esvalido = False
             return esvalido
-    
-        if not CodSocio.isdigit():
+        if CodSocio.isdigit():
+            CodSocio = int(CodSocio)
+            libprest = 0 
+            for i in listprest:
+                if CodSocio == i.socio:
+                    libprest += 1
+                
+            if libprest >= 3:
+                MessageBox.showerror("Error", "El codigo socio tiene 3 o más libros registrados")
+                esvalido = False
+                return esvalido
+            
+        else:    
             MessageBox.showerror("Error", "El codigo socio no tiene el formato correcto.")
             esvalido = False
             return esvalido
         
-        if not FechaDevolucionPactada.isdigit():
-            MessageBox.showerror("Error", "La fecha no tiene el formato correcto.")
-            esvalido = False
-            return esvalido
-        if not FechaPrestamo.isdigit():
-            MessageBox.showerror("Error", "La fecha no tiene el formato correcto.")
-            esvalido = False
-            return esvalido
 
 
         return esvalido

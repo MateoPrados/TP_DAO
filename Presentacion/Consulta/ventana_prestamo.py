@@ -25,7 +25,7 @@ class VentanaPrestamo:
         Label(self.ventana, textvariable=self.cantidad_libros).pack()
         botonera = Frame(self.ventana)
         #Button(botonera, text="Promedio de edades", command=self.promedio_edades).pack(side=LEFT)
-        Button(botonera, text="Nuevo prestamo", command=self.abrir_AMB).pack(side=LEFT)
+        Button(botonera, text="Nuevo prestamo", command=self.abrir_Reg).pack(side=LEFT)
         
         botonera.pack(side=BOTTOM)
         
@@ -57,7 +57,7 @@ class VentanaPrestamo:
         
         self.grilla.delete(*self.grilla.get_children())
         for prestamo in self._prestamos:
-            self.grilla.insert("", END, values=[prestamo.codigo_libro, prestamo.id_socio, prestamo.fecha_prestamo, prestamo.fecha_devolucion_pactada, prestamo.fecha_devolucion])
+            self.grilla.insert("", END, values=[prestamo.libro, prestamo.socio, prestamo.fecha_prestamo, prestamo.fecha_devolucion_pactada, prestamo.fecha_devolucion])
         
         for col in self.grilla["columns"]:
             self.grilla.column(col, anchor="center")
@@ -70,6 +70,9 @@ class VentanaPrestamo:
     def libros(self):
         return self._libros
     
-    def abrir_AMB(self):
+    def abrir_Reg(self):
+        ventana_nueva = VentanaABMPrestamo(self)
+        ventana_nueva.mostrar()
+    def abrir_Dev(self):
         ventana_nueva = VentanaABMPrestamo(self)
         ventana_nueva.mostrar()
