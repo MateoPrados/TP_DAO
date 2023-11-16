@@ -20,17 +20,19 @@ class VentanaLibros:
         # Configuración de la ventana
         self.ventana.title("Listado de libros")
         self.ventana.geometry("500x400")
-        self.ventana.iconbitmap("TP_DAO\Presentacion\extras\libros.ico")
+        self.ventana.iconbitmap("Presentacion\extras\libros.ico")
         self.ventana.resizable(0, 0)
-        
-        self.cantidad_libros = StringVar()
-        Label(self.ventana, textvariable=self.cantidad_libros).pack()
         
         # Botones
         botonera = Frame(self.ventana)
-        Button(botonera, text="Nuevo libro", command=self.abrir_AMB_nuevo).pack(side=LEFT)
-        Button(botonera, text="Nuevo libro", command=self.abrir_AMB_editar).pack(side=LEFT)
-        Button(botonera, text="Nuevo libro", command=self.abrir_AMB_eliminar).pack(side=LEFT)
+        self.boton_registrar = Button(botonera, text="Registrar libro", command=self.abrir_AMB_nuevo)
+        self.boton_registrar.pack(side=LEFT)
+
+        self.boton_modificar = Button(botonera, text="Modificar libro", command=self.abrir_AMB_editar, state="disabled")
+        self.boton_modificar.pack(side=LEFT)
+
+        self.boton_eliminar = Button(botonera, text="Eliminar libro", command=self.abrir_AMB_eliminar, state="disabled")
+        self.boton_eliminar.pack(side=LEFT)
         
         botonera.pack(side=BOTTOM)
         
@@ -47,7 +49,7 @@ class VentanaLibros:
         
         self.refrescar()
         
-        # Vincular el evento de clic
+        # Vincular el evento de click
         self.grilla.bind("<Button-1>", self.click_en_grilla)
 
         self.grilla.pack(pady=10)
@@ -56,6 +58,8 @@ class VentanaLibros:
     def click_en_grilla(self, evento):
         # Obtener la fila seleccionada
         fila_seleccionada = self.grilla.identify_row(evento.y)
+        self.boton_modificar.config(state="normal")
+        self.boton_eliminar.config(state="normal")
 
         if fila_seleccionada:
             # Obtener información sobre el ítem
@@ -78,11 +82,6 @@ class VentanaLibros:
         
         for col in self.grilla["columns"]:
             self.grilla.column(col, anchor="center")
-            
-        print(self.libros[0])
-        
-    # def promedio_edades(self):
-    #     messagebox.showinfo("Reporte", f"El promedio de edades es de {self._padron.promedio_edades}")
     
     @property
     def libro_seleccionado(self):
